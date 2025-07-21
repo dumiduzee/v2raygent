@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Request
+from src.auth.schema import Register
 from src.database import db
 
 auth_router = APIRouter(tags=["Auth"])
@@ -13,5 +14,5 @@ def index(req: Request,db:db):
 
 #Register
 @auth_router.post("/register",summary="registration endpoint")
-async def register():
+async def register(regster_info:Register):
     pass
