@@ -2,7 +2,12 @@
 
 #User registration service layer
 from datetime import timedelta
-from src.auth.Exceptions import PhoneNumberExsistsException, RegisterFailExsistsException, TokenNotValidException, UsernameExsistsException, UsernameNotValidException
+from typing import Annotated, Self
+
+from fastapi import Depends
+from fastapi.security import OAuth2PasswordBearer
+import jwt
+from src.auth.Exceptions import JwtExceptions, PhoneNumberExsistsException, RegisterFailExsistsException, TokenNotValidException, UsernameExsistsException, UsernameNotValidException
 from src.auth.repo import Crud
 from src.auth.utils import create_access_token, genarate_register_token, send_register_token
 from src.database import db
@@ -10,10 +15,19 @@ from src.setting import setting
 
 
 class Service():
+
+
     """Base class for registraion related functions"""
+
+    outh2schema = OAuth2PasswordBearer(tokenUrl="/v1/auth/login")
+
+
     def __init__(self):
         """initialize crud repo"""
         self.crud = Crud()
+        
+
+
     def register_Service(self,user,db):
         """
         handle user registration
@@ -74,6 +88,20 @@ class Service():
         #create access token
         jwt_token = create_access_token(data={"username":username},expires_delta=access_token_expires)
         return jwt_token
+    
+    def get_current_user(self,token:Annotated[str,Depends(outh2schema)],db:db):
+            try:
+                payload = jwt.decode(token,setting.JWT_SECRET_KEY,algorithms=setting.JWT_ALGORITHM)
+                #check that user exist on the database
+                print(self.crud.isUserExistByUsername(username=payload["username"],db=db))
+                if self.crud.isUserExistByUsername(payload["username"],db=db) is None:
+                    raise UsernameNotValidException()
+                return payload["username"]
+            except jwt.InvalidTokenError:
+                raise JwtExceptions()
+            except Exception:
+                raise JwtExceptions()
+            
         
 
 services = Service()

@@ -38,3 +38,8 @@ class TokenNotValidException(AuthExceptions):
     """Raise when token not in database"""
     def __init__(self, status_code=status.HTTP_400_BAD_REQUEST, detail = "Invalid token! please check your token again"):
         super().__init__(status_code, detail)
+
+class JwtExceptions(AuthExceptions):
+    """Raise when jwt error occured"""
+    def __init__(self, status_code=status.HTTP_400_BAD_REQUEST, detail = "Authorization failed! please log back again"):
+        super().__init__(status_code, detail)

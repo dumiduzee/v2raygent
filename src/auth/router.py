@@ -24,8 +24,9 @@ def register(register_info:Register,db:db):
 #Login user endpoint
 @auth_router.post("/login",summary="loginin endpoint",status_code=status.HTTP_200_OK,response_model=Token)
 def login(db:db,form_data:Annotated[OAuth2PasswordRequestForm,Depends()]):
+    """Login and genarate valid jwt token"""
     token = services.login_service(username=form_data.username,token=form_data.password,db=db)
     return Token(
-        token=token,
+        access_token=token,
         token_type="bearer"
     )

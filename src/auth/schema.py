@@ -60,5 +60,8 @@ class LoginSchema(BaseModel):
     
 
 class Token(BaseModel):
-    token:str
+    access_token:str
     token_type:str
+
+class User(BaseModel):
+    username:str
