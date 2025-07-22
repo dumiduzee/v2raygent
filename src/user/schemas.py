@@ -6,3 +6,7 @@ class ConfigCreate(BaseModel):
 
 class RegisterToken(BaseModel):
     token:str
+
+class UsernameSchema(BaseModel):
+    username:str
+    config_count:str
