@@ -1,5 +1,13 @@
+from datetime import timedelta
+from datetime import datetime
 import random
+import jwt
 import requests
+from src.setting import setting
+
+
+JWT_SECRET_KEY = setting.JWT_SECRET_KEY 
+JWT_ALGORITHM =  setting.JWT_ALGORITHM
 
 #Genarate register token
 def genarate_register_token():
@@ -34,3 +42,15 @@ def send_register_token(token, phone_number):
     except Exception as e:
         print("Failed to parse response:", e)
         print("Raw response:", response.text)
+
+
+#create jwt access token
+def create_access_token(data:dict,expires_delta:timedelta | None = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.now() + expires_delta
+    else:
+        expire = datetime.now() + timedelta(minutes=10)
+    to_encode.update({"exp":expire})
+    encoded_jwt = jwt.encode(to_encode,JWT_SECRET_KEY,algorithm=JWT_ALGORITHM)
+    return encoded_jwt

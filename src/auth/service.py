@@ -1,10 +1,12 @@
 
 
 #User registration service layer
+from datetime import timedelta
 from src.auth.Exceptions import PhoneNumberExsistsException, RegisterFailExsistsException, TokenNotValidException, UsernameExsistsException, UsernameNotValidException
 from src.auth.repo import Crud
-from src.auth.utils import genarate_register_token, send_register_token
+from src.auth.utils import create_access_token, genarate_register_token, send_register_token
 from src.database import db
+from src.setting import setting
 
 
 class Service():
@@ -51,7 +53,7 @@ class Service():
             raise RegisterFailExsistsException()
         
 
-    def login_service(self,user,db):
+    def login_service(self,username,token,db):
         """
         Service function for these tasks
             - validate user via username if user have check thir token validity
@@ -59,13 +61,20 @@ class Service():
             - return jwt token to the handler
         """
         #Check username is available in the database
-        isUserExsists =  self.crud.isUserExistByUsername(username=user["username"],db=db)
+        isUserExsists =  self.crud.isUserExistByUsername(username=username,db=db)
         if not isUserExsists:
             raise UsernameNotValidException()
         
         #if user have, check token with that user record
-        if isUserExsists.data["token"] != user["token"]:
+        if isUserExsists.data["token"] != token:
             raise TokenNotValidException()
+        
+        #toekn expire time in minutes
+        access_token_expires = timedelta(minutes=setting.JWT_TOKEN_EXPIRES_IN)
+        #create access token
+        jwt_token = create_access_token(data={"username":username},expires_delta=access_token_expires)
+        print(jwt_token)
+
 
         
 
