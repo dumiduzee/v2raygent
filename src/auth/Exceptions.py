@@ -18,3 +18,8 @@ class PhoneNumberExsistsException(AuthExceptions):
     """Raise when  phone number already exists in the database"""
     def __init__(self, status_code=status.HTTP_400_BAD_REQUEST, detail = "This phone number already exists in the system"):
         super().__init__(status_code, detail)
+
+class RegisterFailExsistsException(AuthExceptions):
+    """Raise when  registration fail due to some situation"""
+    def __init__(self, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail = "Something went wrong in our side"):
+        super().__init__(status_code, detail)

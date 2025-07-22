@@ -1,4 +1,5 @@
-from pydantic import BaseModel, field_validator
+from fastapi import File
+from pydantic import BaseModel, Field, field_validator
 from pydantic_extra_types.phone_numbers import PhoneNumber
 import phonenumbers
 
@@ -25,3 +26,7 @@ class Register(BaseModel):
 
         
         return phonenumbers.format_number(parsed, phonenumbers.PhoneNumberFormat.E164)
+
+class RegisterResponse(BaseModel):
+    succuss:bool=Field(default=True)
+    message:str=Field(default="Account created succuss!!")
