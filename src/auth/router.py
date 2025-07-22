@@ -22,4 +22,4 @@ def register(register_info:Register,db:db):
 #Login user endpoint
 @auth_router.post("/login",summary="loginin endpoint",status_code=status.HTTP_200_OK)
 def login(login_info:LoginSchema,db:db):
-    pass
+    services.login_service(user=login_info.model_dump(),db=db)

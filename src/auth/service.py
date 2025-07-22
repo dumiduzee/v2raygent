@@ -1,9 +1,10 @@
 
 
 #User registration service layer
-from src.auth.Exceptions import PhoneNumberExsistsException, RegisterFailExsistsException, UsernameExsistsException
+from src.auth.Exceptions import PhoneNumberExsistsException, RegisterFailExsistsException, TokenNotValidException, UsernameExsistsException, UsernameNotValidException
 from src.auth.repo import Crud
 from src.auth.utils import genarate_register_token, send_register_token
+from src.database import db
 
 
 class Service():
@@ -48,6 +49,27 @@ class Service():
                 raise RegisterFailExsistsException()
         else:
             raise RegisterFailExsistsException()
+        
+
+    def login_service(self,user,db):
+        """
+        Service function for these tasks
+            - validate user via username if user have check thir token validity
+            - if all correct genarate jwt token
+            - return jwt token to the handler
+        """
+        #Check username is available in the database
+        isUserExsists =  self.crud.isUserExistByUsername(username=user["username"],db=db)
+        if not isUserExsists:
+            raise UsernameNotValidException()
+        
+        #if user have, check token with that user record
+        if isUserExsists.data["token"] != user["token"]:
+            raise TokenNotValidException()
+
+        
+
+
 
         
 

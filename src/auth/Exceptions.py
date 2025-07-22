@@ -28,3 +28,13 @@ class LoginTokenInvalidException(AuthExceptions):
     """Raise when token dosen't meets his requirements"""
     def __init__(self, status_code=status.HTTP_400_BAD_REQUEST, detail = "Invalid token"):
         super().__init__(status_code, detail)
+
+class UsernameNotValidException(AuthExceptions):
+    """Raise when username not in database"""
+    def __init__(self, status_code=status.HTTP_400_BAD_REQUEST, detail = "Invalid username! please check your username again"):
+        super().__init__(status_code, detail)
+
+class TokenNotValidException(AuthExceptions):
+    """Raise when token not in database"""
+    def __init__(self, status_code=status.HTTP_400_BAD_REQUEST, detail = "Invalid token! please check your token again"):
+        super().__init__(status_code, detail)
