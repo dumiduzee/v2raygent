@@ -73,13 +73,7 @@ class Service():
         access_token_expires = timedelta(minutes=setting.JWT_TOKEN_EXPIRES_IN)
         #create access token
         jwt_token = create_access_token(data={"username":username},expires_delta=access_token_expires)
-        print(jwt_token)
-
-
-        
-
-
-
+        return jwt_token
         
 
 services = Service()

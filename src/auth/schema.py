@@ -57,3 +57,8 @@ class LoginSchema(BaseModel):
         if len(v)  == 0 or v is None:
             raise LoginTokenInvalidException(detail="Username required")
         return v
+    
+
+class Token(BaseModel):
+    token:str
+    token_type:str
