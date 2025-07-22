@@ -4,10 +4,13 @@ import random
 import jwt
 import requests
 from src.setting import setting
+from src.auth.utils import TEXT_LK_API_KEY, TEXT_LK_SENDER_ID
 
 
 JWT_SECRET_KEY = setting.JWT_SECRET_KEY 
 JWT_ALGORITHM =  setting.JWT_ALGORITHM
+TEXT_LK_API_KEY = setting.TEXT_LK_API_KEY
+TEXT_LK_SENDER_ID = setting.TEXT_LK_SENDER_ID
 
 #Genarate register token
 def genarate_register_token():
@@ -21,14 +24,14 @@ def send_register_token(token, phone_number):
     url = "https://app.text.lk/api/v3/sms/send"
 
     headers = {
-        "Authorization": "Bearer 959|EEvDeFe6Ysac62kqIvCWlT2owSqxq06ms1g8z9MJ1918a24b",
+        "Authorization": f"Bearer {TEXT_LK_API_KEY}",
         "Content-Type": "application/json",
         "Accept": "application/json"
     }
 
     data = {
         "recipient": phone_number.lstrip("+"),
-        "sender_id": "TextLKDemo",
+        "sender_id": f"{TEXT_LK_SENDER_ID}",
         "type": "plain",
         "message": f"Your registration code is: {token}. please save this code somewhere. this code required for request configs."
     }

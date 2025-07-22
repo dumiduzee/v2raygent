@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     MARZBAN_API_URL:str = config("MARZBAN_API_URL")
     MARZBAN_USERNAME:str = config("MARZBAN_USERNAME")
     MARZBAN_PASSWORD:str = config("MARZBAN_PASSWORD")
+    TEXT_LK_API_KEY:str = config("TEXT_LK_API_KEY")
+    TEXT_LK_SENDER_ID:str = config("TEXT_LK_SENDER_ID")
 
 
 

@@ -22,7 +22,7 @@ def user_info(db:db,register_token:RegisterToken):
         )
     
 
-
+#Create new config to the user
 @user_router.post("/create",summary="Create new config to the user",response_model=ConfigCreateResponse)
 def createConfig(config:ConfigCreate,db:db):
     result = services.create_config_service(config_info=config,db=db)
