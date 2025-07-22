@@ -10,3 +10,9 @@ class GetUsernameExceptions(UserExceptions):
     def __init__(self, status_code=status.HTTP_400_BAD_REQUEST, detail = ""):
         super().__init__(status_code, detail)
 
+class CreateConfigExceptions(UserExceptions):
+    """Raise when something happened on get username services"""
+    def __init__(self, status_code=status.HTTP_400_BAD_REQUEST, detail = ""):
+        super().__init__(status_code, detail)
+
+

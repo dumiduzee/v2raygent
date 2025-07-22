@@ -1,9 +1,11 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends,status
 from src.auth.schema import User
-from src.user.schemas import  RegisterToken, UsernameSchema
+from src.user.Exceptions import CreateConfigExceptions
+from src.user.schemas import  ConfigCreate, ConfigCreateResponse, RegisterToken, UsernameSchema
 from src.database import db
 from src.user.service import services
+
 
 user_router = APIRouter(tags=["User"])
 
@@ -18,7 +20,14 @@ def user_info(db:db,register_token:RegisterToken):
             username=user.data[0]["username"],
             config_count=f"You have {3-int(user.data[0]["config_count"])} more credits"
         )
+    
 
-# @user_router.post("/create",summary="Create new config to the user")
-# def createConfig(config:ConfigCreate,user:Annotated[User,Depends(services.get_current_user)],db:db):
-#     services.create_config_service(userinfo=config)
+
+@user_router.post("/create",summary="Create new config to the user",response_model=ConfigCreateResponse)
+def createConfig(config:ConfigCreate,db:db):
+    result = services.create_config_service(config_info=config,db=db)
+    if result is None:
+        raise CreateConfigExceptions(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,detail="Something went wrong on our side")
+    return ConfigCreateResponse(
+        remainiting_credits= result
+    )
