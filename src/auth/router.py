@@ -12,6 +12,6 @@ auth_router = APIRouter(tags=["Auth"])
 
 #Register user endpoint
 @auth_router.post("/register",summary="registration endpoint")
-async def register(register_info:Register,db:db):
+def register(register_info:Register,db:db):
     """Register user via valid username and valid phone number"""
-    result = await services.register_Service(register_info.model_dump(),db)
+    result = services.register_Service(register_info.model_dump(),db)

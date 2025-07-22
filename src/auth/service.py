@@ -10,7 +10,7 @@ class Service():
     def __init__(self):
         """initialize crud repo"""
         self.crud = Crud()
-    async def register_Service(self,user,db):
+    def register_Service(self,user,db):
         """
         handle user registration
         check that username or phone number already exists
@@ -19,13 +19,16 @@ class Service():
         send 8 digit code as sms
         """
         #check username existance
-        isExsists = await self.crud.isUserExistByUsername(user["username"],db)
+        isExsists = self.crud.isUserExistByUsername(user["username"],db)
+        print(isExsists)
         if isExsists:
             raise UsernameExsistsException()
         # #check phone number exsistance
-        isExsists = await self.crud.isUserExsitsByNumber(user["phone_number"],db)
+        isExsists = self.crud.isUserExsitsByNumber(user["phone_number"],db)
         if isExsists:
             raise PhoneNumberExsistsException()
+        
+        
         
 
 services = Service()
