@@ -4,7 +4,7 @@ import random
 import jwt
 import requests
 from src.setting import setting
-from src.auth.utils import TEXT_LK_API_KEY, TEXT_LK_SENDER_ID
+
 
 
 JWT_SECRET_KEY = setting.JWT_SECRET_KEY 
