@@ -40,6 +40,7 @@ def genarate_uuid():
 
 def create_config_marzban(package,token):
     """create user in marzban pannel"""
+    print("hi")
     try:
         if TOKEN is None:
             login_to_marzban()
@@ -85,6 +86,7 @@ def create_config_marzban(package,token):
 
         response = requests.post(url=url,headers=headers,json=body)
         result = response.json()
+     
         config = result.get("links")[0]
         subscription_url:str = result.get("subscription_url").split("/sub/")[1]
         return {
