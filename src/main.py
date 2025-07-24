@@ -10,7 +10,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="V2raygent",
-    description="Ai powered v2ray agent"
+    description="Ai powered v2ray agent",
+    docs_url=None
 )
 
 app.add_middleware(
