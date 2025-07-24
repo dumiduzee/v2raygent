@@ -18,7 +18,7 @@ def user_info(db:db,register_token:RegisterToken):
     if user:
         return UsernameSchema(
             username=user.data[0]["username"],
-            config_count=f"You have {3-int(user.data[0]["config_count"])} more credits"
+            config_count=f"You have {3-int(user.data[0]['config_count'])} more credits"
         )
     
 
